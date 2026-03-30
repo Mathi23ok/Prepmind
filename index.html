@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GATEPrep AI Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/style.css">
+</head>
+<body>
+    <div class="page-bg page-bg-left"></div>
+    <div class="page-bg page-bg-right"></div>
+
+    <div class="app-shell">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">GATEPrep AI</p>
+                <h1>Document-first revision workspace</h1>
+            </div>
+            <div class="status-cluster">
+                <div class="status-chip">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span id="sessionLabel">No active session</span>
+                </div>
+                <div class="status-summary" id="statusMessage">
+                    Enter your user ID to begin a secure study session.
+                </div>
+            </div>
+        </header>
+
+        <main class="workspace">
+            <aside class="sidebar">
+                <section class="card intro-card">
+                    <p class="section-kicker">Workspace</p>
+                    <h2>Study from your own PDFs, not generic notes.</h2>
+                    <p class="support-copy">
+                        Upload your material, select the exact document you want, and get clean answers with optional evidence and flip-based flashcards.
+                    </p>
+                </section>
+
+                <section class="card auth-card">
+                    <div class="section-head">
+                        <div>
+                            <p class="section-kicker">Step 1</p>
+                            <h3>Start session</h3>
+                        </div>
+                    </div>
+
+                    <label for="userId">User ID</label>
+                    <div class="inline-row">
+                        <input id="userId" type="text" placeholder="e.g. gate-cse-2026">
+                        <button id="loginBtn" class="btn btn-primary" type="button">Continue</button>
+                    </div>
+                    <p class="microcopy">The token stays hidden inside the app</p>
+                </section>
+
+                <section class="card library-card">
+                    <div class="section-head">
+                        <div>
+                            <p class="section-kicker">Library</p>
+                            <h3>Uploaded documents</h3>
+                        </div>
+                        <span class="badge" id="documentCount">0</span>
+                    </div>
+
+                    <div id="documentLibrary" class="document-library empty">
+                        <p>No PDFs uploaded yet.</p>
+                    </div>
+                </section>
+            </aside>
+
+            <section class="content">
+                <section class="card upload-card">
+                    <div class="section-head">
+                        <div>
+                            <p class="section-kicker">Step 2</p>
+                            <h3>Upload a PDF</h3>
+                        </div>
+                        <span class="quiet-note">PDF only</span>
+                    </div>
+
+                    <label class="upload-zone" for="fileInput" id="uploadBox">
+                        <input id="fileInput" type="file" accept=".pdf">
+                        <span class="upload-icon">PDF</span>
+                        <strong id="fileLabel">Drop your document here or click to browse</strong>
+                        <small id="fileMeta">After upload, it will appear instantly in your document library and selectors.</small>
+                    </label>
+
+                    <div class="toolbar">
+                        <button id="uploadBtn" class="btn btn-primary" type="button">Upload document</button>
+                        <span id="uploadSuccess" class="inline-success"></span>
+                    </div>
+                </section>
+
+                <section class="card answer-card">
+                    <div class="card-header-grid">
+                        <div>
+                            <p class="section-kicker">Step 3</p>
+                            <h3>Ask AI from a chosen document</h3>
+                        </div>
+                        <div class="field-group compact">
+                            <label for="documentSelect">Answer from</label>
+                            <select id="documentSelect">
+                                <option value="">All uploaded documents</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="queryInput">Question</label>
+                        <textarea id="queryInput" rows="4" placeholder="Ask something specific, like: Explain convolution in simple terms with intuition."></textarea>
+                    </div>
+
+                    <div class="toolbar">
+                        <button id="askBtn" class="btn btn-primary" type="button">Ask AI</button>
+                        <button id="toggleSourcesBtn" class="btn btn-secondary" type="button" hidden>Show sources</button>
+                    </div>
+
+                    <div class="answer-surface">
+                        <div class="answer-meta">
+                            <span class="answer-title">Answer</span>
+                            <span class="answer-tag">Clean view</span>
+                        </div>
+                        <div id="answerOutput" class="answer-output">Your answer will appear here in a cleaner reading format.</div>
+                    </div>
+
+                    <div id="sourcesPanel" class="sources-panel" hidden>
+                        <h4>Source snippets</h4>
+                        <div id="sourcesList" class="sources-list"></div>
+                    </div>
+                </section>
+
+                <section class="card flashcards-card">
+                    <div class="card-header-grid">
+                        <div>
+                            <p class="section-kicker">Step 4</p>
+                            <h3>Generate revision flashcards</h3>
+                        </div>
+                        <div class="flashcard-controls">
+                            <div class="field-group compact">
+                                <label for="flashcardDocumentSelect">Document</label>
+                                <select id="flashcardDocumentSelect">
+                                    <option value="">All uploaded documents</option>
+                                </select>
+                            </div>
+                            <div class="field-group compact grow">
+                                <label for="topicInput">Optional topic</label>
+                                <input id="topicInput" type="text" placeholder="Example: operating systems">
+                            </div>
+                            <button id="flashcardsBtn" class="btn btn-primary" type="button">Generate</button>
+                        </div>
+                    </div>
+
+                    <div class="flashcard-stage">
+                        <div class="deck-shadow deck-shadow-one"></div>
+                        <div class="deck-shadow deck-shadow-two"></div>
+                        <button id="flashcardCard" class="flashcard-card" type="button">
+                            <span class="card-face card-front">
+                                <span class="card-label">Question</span>
+                                <span id="flashcardQuestion" class="card-copy">Generate flashcards to begin your revision stack.</span>
+                            </span>
+                            <span class="card-face card-back">
+                                <span class="card-label">Answer</span>
+                                <span id="flashcardAnswer" class="card-copy">Click the card to flip it and reveal the answer.</span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="flashcard-footer">
+                        <span id="flashcardCounter">Card 0 of 0</span>
+                        <div class="inline-row">
+                            <button id="prevCardBtn" class="btn btn-secondary" type="button">Previous</button>
+                            <button id="nextCardBtn" class="btn btn-primary" type="button">Next</button>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="/frontend/app.js"></script>
+</body>
+</html>
