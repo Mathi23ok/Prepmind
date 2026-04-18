@@ -15,8 +15,6 @@ PrepMind lets you:
 * Generate revision flashcards from your content
 * Focus on specific documents or topics
 
-This is not just a chatbot.
-It’s a **personalized study system**.
 
 ---
 
